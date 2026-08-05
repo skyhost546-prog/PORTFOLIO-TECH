@@ -36,6 +36,17 @@ navLinks.querySelectorAll("a").forEach((a) =>
   a.addEventListener("click", () => navLinks.classList.remove("is-open"))
 );
 
+/* ---------- GOOGLE TRANSLATE (toutes les langues) ---------- */
+const langToggle = document.getElementById("langToggle");
+const langWrap = document.querySelector(".lang-wrap");
+langToggle.addEventListener("click", (e) => {
+  e.stopPropagation();
+  langWrap.classList.toggle("is-open");
+});
+document.addEventListener("click", (e) => {
+  if (!langWrap.contains(e.target)) langWrap.classList.remove("is-open");
+});
+
 /* ---------- i18n ---------- */
 const translations = {
   en: {
@@ -46,19 +57,24 @@ const translations = {
     "hero.whoami": "Dawens — building open source tools, one repo at a time.",
     "hero.cta1": "View Projects", "hero.cta2": "Contact Me",
     "about.eyebrow": "About", "about.title": "Building things that outlive the demo.",
-    "about.text": "I'm Dawens, known online as Inconnu boy — an open source full stack developer based in Maringá, Brazil. I care about tools people actually keep using: clean APIs, honest interfaces, and code that's easy to read six months later. Most of my work lives in the open, on GitHub, where I build web and Android apps and collaborate with other developers. I'm also the co-founder of SYRIX COMPANY, a small team shipping open source software together.",
+    "about.text": "I'm Dawens, known online as Inconnu boy sensei — an open source full stack developer based in Maringá, Brazil. I care about tools people actually keep using: clean APIs, honest interfaces, and code that's easy to read six months later. Most of my work lives in the open, on GitHub, where I build web and Android apps and collaborate with other developers. I'm also the co-founder of SYRIX COMPANY, a small team shipping open source software together.",
     "stack.eyebrow": "Stack", "stack.title": "Tools I reach for.",
     "exp.eyebrow": "Experience", "exp.title": "Where the work has gone.",
     "projects.eyebrow": "Projects", "projects.title": "Pulled straight from GitHub.",
-    "projects.text": "Live data from github.com/INCONNU-BOY — repositories, stars, forks and languages, refreshed on every visit.",
+    "projects.text": "Live data from github.com/INCONNU-BOY — a look at the stats, plus the most influential repositories.",
     "projects.statRepos": "Repositories", "projects.statStars": "Total Stars",
     "projects.statFollowers": "Followers", "projects.statLang": "Top Language",
+    "projects.featuredBadge": "Featured Project",
+    "projects.featuredTitle": "Web &amp; HTML to APK",
+    "projects.featuredDesc": "A tool that converts websites and HTML projects directly into installable Android APKs.",
+    "projects.featuredCta": "Live demo — inconnu.zone.id",
+    "projects.moreEyebrow": "More on GitHub",
     "projects.loading": "Fetching repositories…",
     "oss.eyebrow": "Open Source", "oss.title": "Public by default.",
     "oss.text": "Nearly everything I build ships in the open. I believe in code that anyone can read, fork, question and improve — and in giving back to the ecosystem of tools I rely on every day. Issues, pull requests and discussions on my repositories are always welcome.",
     "oss.follow": "Follow on GitHub",
     "syrix.eyebrow": "Syrix Company",
-    "syrix.text": "SYRIX COMPANY is a small team building open source software and independent tools — co-founded by Inconnu boy. We ship what we'd want to use ourselves.",
+    "syrix.text": "SYRIX COMPANY is a small team building open source software and independent tools — co-founded by Inconnu boy sensei. We ship what we'd want to use ourselves.",
     "contact.eyebrow": "Contact", "contact.title": "Let's talk.",
     "contact.text": "Open to collaborating on open source, freelance work, or just a good technical conversation.",
     "contact.wa": "Follow my WhatsApp Channel",
@@ -73,19 +89,24 @@ const translations = {
     "hero.whoami": "Dawens — je construis des outils open source, un dépôt à la fois.",
     "hero.cta1": "Voir les projets", "hero.cta2": "Me contacter",
     "about.eyebrow": "À propos", "about.title": "Construire des choses qui survivent à la démo.",
-    "about.text": "Je suis Dawens, connu en ligne sous le nom d'Inconnu boy — développeur full stack open source basé à Maringá, au Brésil. Ce qui compte pour moi : des outils que les gens utilisent vraiment, des API propres, des interfaces honnêtes, et du code lisible six mois plus tard. La majorité de mon travail est public, sur GitHub, où je développe des applications web et Android en collaboration avec d'autres développeurs. Je suis aussi co-fondateur de SYRIX COMPANY, une petite équipe qui développe des logiciels open source ensemble.",
+    "about.text": "Je suis Dawens, connu en ligne sous le nom d'Inconnu boy sensei — développeur full stack open source basé à Maringá, au Brésil. Ce qui compte pour moi : des outils que les gens utilisent vraiment, des API propres, des interfaces honnêtes, et du code lisible six mois plus tard. La majorité de mon travail est public, sur GitHub, où je développe des applications web et Android en collaboration avec d'autres développeurs. Je suis aussi co-fondateur de SYRIX COMPANY, une petite équipe qui développe des logiciels open source ensemble.",
     "stack.eyebrow": "Stack", "stack.title": "Les outils que j'utilise.",
     "exp.eyebrow": "Expérience", "exp.title": "Là où le travail m'a mené.",
     "projects.eyebrow": "Projets", "projects.title": "Directement depuis GitHub.",
-    "projects.text": "Données en direct depuis github.com/INCONNU-BOY — dépôts, stars, forks et langages, actualisés à chaque visite.",
+    "projects.text": "Données en direct depuis github.com/INCONNU-BOY — un aperçu des statistiques, plus les dépôts les plus influents.",
     "projects.statRepos": "Dépôts", "projects.statStars": "Stars au total",
     "projects.statFollowers": "Abonnés", "projects.statLang": "Langage principal",
+    "projects.featuredBadge": "Projet phare",
+    "projects.featuredTitle": "Web &amp; HTML vers APK",
+    "projects.featuredDesc": "Un outil qui convertit des sites web et projets HTML directement en APK Android installables.",
+    "projects.featuredCta": "Démo en ligne — inconnu.zone.id",
+    "projects.moreEyebrow": "Plus sur GitHub",
     "projects.loading": "Récupération des dépôts…",
     "oss.eyebrow": "Open Source", "oss.title": "Public par défaut.",
     "oss.text": "Presque tout ce que je construis est publié en open source. Je crois en un code que chacun peut lire, forker, questionner et améliorer — et je tiens à contribuer à l'écosystème d'outils que j'utilise chaque jour. Issues, pull requests et discussions sont toujours les bienvenues.",
     "oss.follow": "Suivre sur GitHub",
     "syrix.eyebrow": "Syrix Company",
-    "syrix.text": "SYRIX COMPANY est une petite équipe qui développe des logiciels open source et des outils indépendants — co-fondée par Inconnu boy. Nous créons ce que nous voudrions utiliser nous-mêmes.",
+    "syrix.text": "SYRIX COMPANY est une petite équipe qui développe des logiciels open source et des outils indépendants — co-fondée par Inconnu boy sensei. Nous créons ce que nous voudrions utiliser nous-mêmes.",
     "contact.eyebrow": "Contact", "contact.title": "Discutons.",
     "contact.text": "Ouvert à la collaboration open source, aux missions freelance, ou simplement à une bonne discussion technique.",
     "contact.wa": "Suivre ma chaîne WhatsApp",
@@ -100,19 +121,24 @@ const translations = {
     "hero.whoami": "Dawens — construindo ferramentas open source, um repositório de cada vez.",
     "hero.cta1": "Ver projetos", "hero.cta2": "Fale comigo",
     "about.eyebrow": "Sobre", "about.title": "Construindo coisas que sobrevivem à demo.",
-    "about.text": "Sou o Dawens, conhecido online como Inconnu boy — desenvolvedor full stack open source baseado em Maringá, Brasil. Me importo com ferramentas que as pessoas realmente continuam usando: APIs limpas, interfaces honestas e código fácil de ler seis meses depois. A maior parte do meu trabalho é pública, no GitHub, onde desenvolvo aplicações web e Android e colaboro com outros desenvolvedores. Também sou co-fundador da SYRIX COMPANY, uma pequena equipe que desenvolve software open source junto.",
+    "about.text": "Sou o Dawens, conhecido online como Inconnu boy sensei — desenvolvedor full stack open source baseado em Maringá, Brasil. Me importo com ferramentas que as pessoas realmente continuam usando: APIs limpas, interfaces honestas e código fácil de ler seis meses depois. A maior parte do meu trabalho é pública, no GitHub, onde desenvolvo aplicações web e Android e colaboro com outros desenvolvedores. Também sou co-fundador da SYRIX COMPANY, uma pequena equipe que desenvolve software open source junto.",
     "stack.eyebrow": "Stack", "stack.title": "Ferramentas que uso.",
     "exp.eyebrow": "Experiência", "exp.title": "Para onde o trabalho foi.",
     "projects.eyebrow": "Projetos", "projects.title": "Direto do GitHub.",
-    "projects.text": "Dados em tempo real de github.com/INCONNU-BOY — repositórios, stars, forks e linguagens, atualizados a cada visita.",
+    "projects.text": "Dados em tempo real de github.com/INCONNU-BOY — um panorama das estatísticas, além dos repositórios mais relevantes.",
     "projects.statRepos": "Repositórios", "projects.statStars": "Stars totais",
     "projects.statFollowers": "Seguidores", "projects.statLang": "Linguagem principal",
+    "projects.featuredBadge": "Projeto em destaque",
+    "projects.featuredTitle": "Web &amp; HTML para APK",
+    "projects.featuredDesc": "Uma ferramenta que converte sites e projetos HTML diretamente em APKs Android instaláveis.",
+    "projects.featuredCta": "Demo ao vivo — inconnu.zone.id",
+    "projects.moreEyebrow": "Mais no GitHub",
     "projects.loading": "Buscando repositórios…",
     "oss.eyebrow": "Open Source", "oss.title": "Público por padrão.",
     "oss.text": "Quase tudo que eu construo é publicado em open source. Acredito em código que qualquer pessoa possa ler, fazer fork, questionar e melhorar — e em retribuir ao ecossistema de ferramentas que uso todos os dias. Issues, pull requests e discussões são sempre bem-vindas.",
     "oss.follow": "Seguir no GitHub",
     "syrix.eyebrow": "Syrix Company",
-    "syrix.text": "A SYRIX COMPANY é uma pequena equipe que desenvolve software open source e ferramentas independentes — co-fundada pelo Inconnu boy. Criamos o que nós mesmos gostaríamos de usar.",
+    "syrix.text": "A SYRIX COMPANY é uma pequena equipe que desenvolve software open source e ferramentas independentes — co-fundada pelo Inconnu boy sensei. Criamos o que nós mesmos gostaríamos de usar.",
     "contact.eyebrow": "Contato", "contact.title": "Vamos conversar.",
     "contact.text": "Aberto a colaborar em open source, trabalhos freelance, ou apenas uma boa conversa técnica.",
     "contact.wa": "Siga meu canal do WhatsApp",
@@ -195,7 +221,7 @@ async function loadGitHub() {
     const top = repos
       .filter((r) => !r.fork)
       .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.updated_at) - new Date(a.updated_at))
-      .slice(0, 6);
+      .slice(0, 3);
 
     if (top.length === 0) {
       repoGrid.innerHTML = `<p class="repo-loading">No public repositories yet.</p>`;
@@ -251,6 +277,35 @@ function observeReveals() {
   els.forEach((el) => io.observe(el));
 }
 observeReveals();
+
+/* ---------- LIVE CLOCK ---------- */
+const liveClock = document.getElementById("liveClock");
+function updateClock() {
+  liveClock.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+updateClock();
+setInterval(updateClock, 1000 * 10);
+
+/* ---------- BATTERY STATUS ---------- */
+const batteryPill = document.getElementById("batteryPill");
+const batteryLevel = document.getElementById("batteryLevel");
+const batteryFill = document.getElementById("batteryFill");
+
+if ("getBattery" in navigator) {
+  navigator.getBattery().then((battery) => {
+    function renderBattery() {
+      const pct = Math.round(battery.level * 100);
+      batteryLevel.textContent = `${pct}%${battery.charging ? " ⚡" : ""}`;
+      batteryFill.setAttribute("width", Math.max(1, (pct / 100) * 15));
+      batteryPill.hidden = false;
+    }
+    renderBattery();
+    battery.addEventListener("levelchange", renderBattery);
+    battery.addEventListener("chargingchange", renderBattery);
+  }).catch(() => { batteryPill.hidden = true; });
+} else {
+  batteryPill.hidden = true;
+}
 
 /* ---------- FOOTER YEAR ---------- */
 document.getElementById("year").textContent = new Date().getFullYear();
