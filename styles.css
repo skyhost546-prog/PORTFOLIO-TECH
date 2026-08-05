@@ -185,15 +185,7 @@ body { top: 0 !important; position: static !important; }
   overflow: hidden;
 }
 .hero__grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 10%, transparent 70%);
-  opacity: 0.5;
-  pointer-events: none;
+  display: none;
 }
 .hero__inner {
   position: relative;
@@ -275,7 +267,7 @@ body { top: 0 !important; position: static !important; }
   cursor: pointer;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn--primary { background: var(--accent); color: #14171A; }
+.btn--primary { background: var(--text); color: var(--bg); }
 .btn--ghost { border-color: var(--line); color: var(--text); }
 .btn--ghost:hover { border-color: var(--accent); }
 .btn--wa { margin-top: 8px; }
