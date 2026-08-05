@@ -79,7 +79,7 @@ const translations = {
     "contact.text": "Open to collaborating on open source, freelance work, or just a good technical conversation.",
     "contact.wa": "Follow my WhatsApp Channel",
     "contact.location": "Vila Esperança, Maringá — Brazil",
-    "footer.made": "Built with plain HTML, CSS & JS.",
+    "footer.made": "",
   },
   fr: {
     "nav.about": "À propos", "nav.stack": "Stack", "nav.experience": "Expérience",
@@ -111,7 +111,7 @@ const translations = {
     "contact.text": "Ouvert à la collaboration open source, aux missions freelance, ou simplement à une bonne discussion technique.",
     "contact.wa": "Suivre ma chaîne WhatsApp",
     "contact.location": "Vila Esperança, Maringá — Brésil",
-    "footer.made": "Fait en HTML, CSS & JS.",
+    "footer.made": "",
   },
   pt: {
     "nav.about": "Sobre", "nav.stack": "Stack", "nav.experience": "Experiência",
@@ -143,7 +143,7 @@ const translations = {
     "contact.text": "Aberto a colaborar em open source, trabalhos freelance, ou apenas uma boa conversa técnica.",
     "contact.wa": "Siga meu canal do WhatsApp",
     "contact.location": "Vila Esperança, Maringá — Brasil",
-    "footer.made": "Feito com HTML, CSS & JS puro.",
+    "footer.made": "",
   },
 };
 
