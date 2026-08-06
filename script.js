@@ -37,15 +37,35 @@ navLinks.querySelectorAll("a").forEach((a) =>
 );
 
 /* ---------- GOOGLE TRANSLATE (toutes les langues) ---------- */
+/* Chargé uniquement si l'utilisateur a accepté les cookies tiers — voir le bloc COOKIE CONSENT plus bas. */
 const langToggle = document.getElementById("langToggle");
 const langWrap = document.querySelector(".lang-wrap");
 langToggle.addEventListener("click", (e) => {
   e.stopPropagation();
+  if (!hasThirdPartyConsent()) {
+    openCookieModal();
+    return;
+  }
   langWrap.classList.toggle("is-open");
 });
 document.addEventListener("click", (e) => {
   if (!langWrap.contains(e.target)) langWrap.classList.remove("is-open");
 });
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement(
+    { pageLanguage: "en", autoDisplay: false },
+    "google_translate_element"
+  );
+}
+let translateScriptLoaded = false;
+function loadGoogleTranslate() {
+  if (translateScriptLoaded) return;
+  translateScriptLoaded = true;
+  const s = document.createElement("script");
+  s.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  document.body.appendChild(s);
+}
 
 /* ---------- i18n ---------- */
 const translations = {
@@ -80,6 +100,42 @@ const translations = {
     "contact.wa": "Follow my WhatsApp Channel",
     "contact.location": "Vila Esperança, Maringá — Brazil",
     "footer.made": "",
+    "cookies.title": "We value your privacy",
+    "cookies.desc": "This site uses essential cookies to remember your preferences (theme, language) and third-party cookies (Google Maps, Google Translate) to power some embedded features. You choose what to allow.",
+    "cookies.customize": "Customize",
+    "cookies.reject": "Reject non-essential",
+    "cookies.acceptAll": "Accept all",
+    "cookies.manage": "Cookie settings",
+    "cookies.eyebrow": "Privacy",
+    "cookies.modalTitle": "Cookie preferences",
+    "cookies.modalIntro": "Choose which cookies this site is allowed to use. Necessary cookies are always active because the site can't function properly without them.",
+    "cookies.catNecessaryTitle": "Necessary",
+    "cookies.catNecessaryDesc": "Required for core functionality: theme, language, and remembering your cookie choice. Cannot be disabled.",
+    "cookies.catPrefTitle": "Preferences",
+    "cookies.catPrefDesc": "Remembers non-essential display choices to make future visits smoother.",
+    "cookies.catThirdTitle": "Third-party services",
+    "cookies.catThirdDesc": "Loads the Google Maps embed and the Google Translate widget. These services may set their own cookies.",
+    "cookies.save": "Save preferences",
+    "cookies.policyLink": "Full cookie policy",
+    "cookies.mapConsentText": "This map is provided by Google Maps and requires third-party cookies to load.",
+    "cookies.mapConsentAccept": "Load the map",
+    "cookies.mapConsentOpen": "Open in Google Maps",
+    "cookies.fullPolicy": `
+      <h3>What are cookies?</h3>
+      <p>Cookies are small text files stored on your device that help a website remember information about your visit. This policy also covers similar technologies such as <code>localStorage</code>, used on this site the same way.</p>
+      <h3>How we use them</h3>
+      <ul>
+        <li><strong>Necessary</strong> — stores your theme (dark/light), your interface language, and your cookie choice itself. Stored locally in your browser via <code>localStorage</code>. Never expires until you clear your browser data.</li>
+        <li><strong>Preferences</strong> — reserved for non-essential display preferences that may be added in the future.</li>
+        <li><strong>Third-party services</strong> — enables the Google Maps embed in the Contact section and the Google Translate widget. When enabled, Google may set its own cookies on your device, governed by Google's own privacy policy.</li>
+      </ul>
+      <h3>Third-party providers</h3>
+      <p>Google LLC operates Google Maps and Google Translate. Learn more in <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+      <h3>Managing your choice</h3>
+      <p>You can accept, reject, or customize cookies at any time using the "Cookie settings" link in the footer. Rejecting third-party cookies disables the embedded map and the translation widget, but the rest of the site keeps working normally.</p>
+      <h3>Contact</h3>
+      <p>Questions about this policy can be sent to <a href="mailto:inconnuboytech@gmail.com">inconnuboytech@gmail.com</a>.</p>
+    `,
   },
   fr: {
     "nav.about": "À propos", "nav.stack": "Stack", "nav.experience": "Expérience",
@@ -112,6 +168,42 @@ const translations = {
     "contact.wa": "Suivre ma chaîne WhatsApp",
     "contact.location": "Vila Esperança, Maringá — Brésil",
     "footer.made": "",
+    "cookies.title": "Nous respectons votre vie privée",
+    "cookies.desc": "Ce site utilise des cookies essentiels pour mémoriser vos préférences (thème, langue) et des cookies tiers (Google Maps, Google Translate) pour faire fonctionner certaines fonctionnalités intégrées. Vous choisissez ce que vous autorisez.",
+    "cookies.customize": "Personnaliser",
+    "cookies.reject": "Refuser les non-essentiels",
+    "cookies.acceptAll": "Tout accepter",
+    "cookies.manage": "Gérer les cookies",
+    "cookies.eyebrow": "Confidentialité",
+    "cookies.modalTitle": "Préférences des cookies",
+    "cookies.modalIntro": "Choisissez les cookies que ce site est autorisé à utiliser. Les cookies nécessaires sont toujours actifs, car le site ne peut pas fonctionner correctement sans eux.",
+    "cookies.catNecessaryTitle": "Nécessaires",
+    "cookies.catNecessaryDesc": "Indispensables au fonctionnement de base : thème, langue, et mémorisation de votre choix de cookies. Ne peuvent pas être désactivés.",
+    "cookies.catPrefTitle": "Préférences",
+    "cookies.catPrefDesc": "Réservés à d'éventuelles préférences d'affichage non essentielles ajoutées ultérieurement.",
+    "cookies.catThirdTitle": "Services tiers",
+    "cookies.catThirdDesc": "Active l'intégration Google Maps ainsi que le widget Google Translate. Une fois activés, ces services peuvent déposer leurs propres cookies.",
+    "cookies.save": "Enregistrer mes préférences",
+    "cookies.policyLink": "Politique de cookies complète",
+    "cookies.mapConsentText": "Cette carte est fournie par Google Maps et nécessite des cookies tiers pour s'afficher.",
+    "cookies.mapConsentAccept": "Charger la carte",
+    "cookies.mapConsentOpen": "Ouvrir dans Google Maps",
+    "cookies.fullPolicy": `
+      <h3>Qu'est-ce qu'un cookie ?</h3>
+      <p>Un cookie est un petit fichier texte stocké sur votre appareil, qui permet à un site de se souvenir d'informations sur votre visite. Cette politique couvre aussi les technologies similaires comme le <code>localStorage</code>, utilisé de la même façon sur ce site.</p>
+      <h3>Comment nous les utilisons</h3>
+      <ul>
+        <li><strong>Nécessaires</strong> — mémorisent votre thème (sombre/clair), votre langue d'interface, ainsi que votre choix de cookies. Stockés localement dans votre navigateur via <code>localStorage</code>. Conservés jusqu'à ce que vous videz les données de votre navigateur.</li>
+        <li><strong>Préférences</strong> — réservés à d'éventuelles préférences d'affichage non essentielles qui pourraient être ajoutées ultérieurement.</li>
+        <li><strong>Services tiers</strong> — permettent d'afficher la carte Google Maps dans la section Contact et le widget Google Translate. Une fois activés, Google peut déposer ses propres cookies sur votre appareil, régis par sa propre politique de confidentialité.</li>
+      </ul>
+      <h3>Fournisseurs tiers</h3>
+      <p>Google LLC exploite Google Maps et Google Translate. Pour en savoir plus, consultez la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">politique de confidentialité de Google</a>.</p>
+      <h3>Gérer votre choix</h3>
+      <p>Vous pouvez accepter, refuser ou personnaliser les cookies à tout moment via le lien « Gérer les cookies » dans le pied de page. Refuser les cookies tiers désactive la carte intégrée et le widget de traduction, mais le reste du site continue de fonctionner normalement.</p>
+      <h3>Contact</h3>
+      <p>Pour toute question concernant cette politique, écrivez à <a href="mailto:inconnuboytech@gmail.com">inconnuboytech@gmail.com</a>.</p>
+    `,
   },
   pt: {
     "nav.about": "Sobre", "nav.stack": "Stack", "nav.experience": "Experiência",
@@ -144,6 +236,42 @@ const translations = {
     "contact.wa": "Siga meu canal do WhatsApp",
     "contact.location": "Vila Esperança, Maringá — Brasil",
     "footer.made": "",
+    "cookies.title": "Valorizamos sua privacidade",
+    "cookies.desc": "Este site usa cookies essenciais para lembrar suas preferências (tema, idioma) e cookies de terceiros (Google Maps, Google Translate) para viabilizar alguns recursos incorporados. Você escolhe o que permitir.",
+    "cookies.customize": "Personalizar",
+    "cookies.reject": "Rejeitar não essenciais",
+    "cookies.acceptAll": "Aceitar tudo",
+    "cookies.manage": "Preferências de cookies",
+    "cookies.eyebrow": "Privacidade",
+    "cookies.modalTitle": "Preferências de cookies",
+    "cookies.modalIntro": "Escolha quais cookies este site pode usar. Os cookies necessários estão sempre ativos, pois o site não funciona corretamente sem eles.",
+    "cookies.catNecessaryTitle": "Necessários",
+    "cookies.catNecessaryDesc": "Necessários para o funcionamento básico: tema, idioma e memorização da sua escolha de cookies. Não podem ser desativados.",
+    "cookies.catPrefTitle": "Preferências",
+    "cookies.catPrefDesc": "Reservados para futuras preferências de exibição não essenciais.",
+    "cookies.catThirdTitle": "Serviços de terceiros",
+    "cookies.catThirdDesc": "Ativa a incorporação do Google Maps e o widget do Google Translate. Uma vez ativados, esses serviços podem definir seus próprios cookies.",
+    "cookies.save": "Salvar preferências",
+    "cookies.policyLink": "Política de cookies completa",
+    "cookies.mapConsentText": "Este mapa é fornecido pelo Google Maps e requer cookies de terceiros para carregar.",
+    "cookies.mapConsentAccept": "Carregar o mapa",
+    "cookies.mapConsentOpen": "Abrir no Google Maps",
+    "cookies.fullPolicy": `
+      <h3>O que são cookies?</h3>
+      <p>Cookies são pequenos arquivos de texto armazenados no seu dispositivo que ajudam um site a lembrar informações sobre sua visita. Esta política também cobre tecnologias semelhantes, como o <code>localStorage</code>, usado da mesma forma neste site.</p>
+      <h3>Como usamos</h3>
+      <ul>
+        <li><strong>Necessários</strong> — armazenam seu tema (escuro/claro), o idioma da interface e sua escolha de cookies. Armazenados localmente no navegador via <code>localStorage</code>. Mantidos até que você limpe os dados do navegador.</li>
+        <li><strong>Preferências</strong> — reservados para futuras preferências de exibição não essenciais.</li>
+        <li><strong>Serviços de terceiros</strong> — habilitam a incorporação do Google Maps na seção de Contato e o widget do Google Translate. Quando ativados, o Google pode definir seus próprios cookies no seu dispositivo, regidos pela política de privacidade do Google.</li>
+      </ul>
+      <h3>Fornecedores terceiros</h3>
+      <p>A Google LLC opera o Google Maps e o Google Translate. Saiba mais na <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade do Google</a>.</p>
+      <h3>Gerenciando sua escolha</h3>
+      <p>Você pode aceitar, rejeitar ou personalizar os cookies a qualquer momento pelo link "Preferências de cookies" no rodapé. Rejeitar os cookies de terceiros desativa o mapa incorporado e o widget de tradução, mas o restante do site continua funcionando normalmente.</p>
+      <h3>Contato</h3>
+      <p>Dúvidas sobre esta política podem ser enviadas para <a href="mailto:inconnuboytech@gmail.com">inconnuboytech@gmail.com</a>.</p>
+    `,
   },
 };
 
@@ -166,13 +294,35 @@ function applyI18n(lang) {
 applyI18n(detectLang());
 
 /* ---------- SKILLS ---------- */
+/* Real technology logos via Devicon. "mono" = brand mark is black/monochrome,
+   so it needs to be inverted to stay visible on the dark theme. */
 const skills = [
-  "JavaScript", "TypeScript", "Node.js", "React", "Express", "REST API",
-  "PostgreSQL", "MongoDB", "Docker", "Android", "Capacitor", "Git & GitHub",
+  { name: "JavaScript", icon: "devicon-javascript-plain colored" },
+  { name: "TypeScript", icon: "devicon-typescript-plain colored" },
+  { name: "Node.js", icon: "devicon-nodejs-plain colored" },
+  { name: "React", icon: "devicon-react-original colored" },
+  { name: "Express", icon: "devicon-express-original", mono: true },
+  { name: "REST API", icon: null },
+  { name: "PostgreSQL", icon: "devicon-postgresql-plain colored" },
+  { name: "MongoDB", icon: "devicon-mongodb-plain colored" },
+  { name: "Docker", icon: "devicon-docker-plain colored" },
+  { name: "Android", icon: "devicon-android-plain colored" },
+  { name: "Capacitor", icon: "devicon-capacitor-plain colored" },
+  { name: "Git", icon: "devicon-git-plain colored" },
+  { name: "GitHub", icon: "devicon-github-original", mono: true },
 ];
+const restApiIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 0 8-8"/><path d="M4 12h4M4 12l3-3M4 12l3 3"/></svg>`;
 const skillsGrid = document.getElementById("skillsGrid");
 skillsGrid.innerHTML = skills
-  .map((s) => `<div class="skill-cell"><span class="skill-cell__bullet"></span>${s}</div>`)
+  .map(
+    (s) => `
+    <div class="skill-cell">
+      <span class="skill-cell__icon${s.mono ? " skill-cell__icon--mono" : ""}">
+        ${s.icon ? `<i class="${s.icon}"></i>` : restApiIcon}
+      </span>
+      <span>${s.name}</span>
+    </div>`
+  )
   .join("");
 
 /* ---------- TIMELINE ---------- */
@@ -192,6 +342,34 @@ document.getElementById("timeline").innerHTML = timelineData
     </div>`
   )
   .join("");
+
+/* ---------- LANGUAGE LOGOS (Devicon) ---------- */
+const LANG_ICON_MAP = {
+  JavaScript: "devicon-javascript-plain colored",
+  TypeScript: "devicon-typescript-plain colored",
+  HTML: "devicon-html5-plain colored",
+  CSS: "devicon-css3-plain colored",
+  Python: "devicon-python-plain colored",
+  Java: "devicon-java-plain colored",
+  Kotlin: "devicon-kotlin-plain colored",
+  Dart: "devicon-dart-plain colored",
+  "C++": "devicon-cplusplus-plain colored",
+  C: "devicon-c-plain colored",
+  "C#": "devicon-csharp-plain colored",
+  PHP: "devicon-php-plain colored",
+  Ruby: "devicon-ruby-plain colored",
+  Go: "devicon-go-plain colored",
+  Rust: "devicon-rust-plain colored",
+  Shell: "devicon-bash-plain colored",
+  Swift: "devicon-swift-plain colored",
+  Vue: "devicon-vuejs-plain colored",
+  Dockerfile: "devicon-docker-plain colored",
+  EJS: "devicon-html5-plain colored",
+};
+function langIcon(lang) {
+  const cls = LANG_ICON_MAP[lang];
+  return cls ? `<i class="${cls}"></i>` : `<span class="repo-card__lang-dot"></span>`;
+}
 
 /* ---------- GITHUB DATA ---------- */
 async function loadGitHub() {
@@ -240,7 +418,7 @@ async function loadGitHub() {
           <div class="repo-card__meta">
             <span>★ ${r.stargazers_count}</span>
             <span>⑂ ${r.forks_count}</span>
-            ${r.language ? `<span><span class="repo-card__lang-dot"></span>${r.language}</span>` : ""}
+            ${r.language ? `<span class="repo-card__lang">${langIcon(r.language)}${r.language}</span>` : ""}
           </div>
         </a>`
       )
@@ -309,3 +487,118 @@ if ("getBattery" in navigator) {
 
 /* ---------- FOOTER YEAR ---------- */
 document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ==========================================================
+   COOKIE CONSENT
+   Bannière + modal de préférences + politique complète (FR/EN/PT).
+   Catégories : necessary (toujours actif), preferences, thirdparty
+   (Google Maps + Google Translate, chargés uniquement si acceptés).
+   ========================================================== */
+const COOKIE_KEY = "cookie_consent_v1";
+
+function readConsent() {
+  try {
+    const raw = localStorage.getItem(COOKIE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeConsent({ preferences, thirdparty }) {
+  const consent = {
+    necessary: true,
+    preferences: !!preferences,
+    thirdparty: !!thirdparty,
+    ts: Date.now(),
+  };
+  try {
+    localStorage.setItem(COOKIE_KEY, JSON.stringify(consent));
+  } catch {}
+  return consent;
+}
+
+function hasThirdPartyConsent() {
+  const c = readConsent();
+  return !!(c && c.thirdparty);
+}
+
+const cookieBanner = document.getElementById("cookieBanner");
+const cookieModal = document.getElementById("cookieModal");
+const mapConsent = document.getElementById("mapConsent");
+const mapIframe = document.getElementById("mapIframe");
+
+function applyConsent(consent) {
+  if (consent.thirdparty) {
+    loadGoogleTranslate();
+    if (mapIframe && !mapIframe.src) mapIframe.src = mapIframe.dataset.src;
+    if (mapConsent) mapConsent.hidden = true;
+  } else {
+    if (mapIframe) mapIframe.removeAttribute("src");
+    if (mapConsent) mapConsent.hidden = false;
+  }
+}
+
+function hideBanner() {
+  cookieBanner.hidden = true;
+}
+function showBanner() {
+  cookieBanner.hidden = false;
+}
+function openCookieModal() {
+  const c = readConsent();
+  document.getElementById("cookieCatPrefs").checked = c ? c.preferences : true;
+  document.getElementById("cookieCatThird").checked = c ? c.thirdparty : true;
+  cookieModal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function closeCookieModal() {
+  cookieModal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+document.getElementById("cookieAcceptAll").addEventListener("click", () => {
+  const c = writeConsent({ preferences: true, thirdparty: true });
+  applyConsent(c);
+  hideBanner();
+});
+document.getElementById("cookieReject").addEventListener("click", () => {
+  const c = writeConsent({ preferences: false, thirdparty: false });
+  applyConsent(c);
+  hideBanner();
+});
+document.getElementById("cookieCustomize").addEventListener("click", openCookieModal);
+document.getElementById("footerCookieLink").addEventListener("click", openCookieModal);
+document.getElementById("cookieModalClose").addEventListener("click", closeCookieModal);
+document.getElementById("cookieModalBackdrop").addEventListener("click", closeCookieModal);
+document.getElementById("cookieModalReject").addEventListener("click", () => {
+  const c = writeConsent({ preferences: false, thirdparty: false });
+  applyConsent(c);
+  hideBanner();
+  closeCookieModal();
+});
+document.getElementById("cookieModalSave").addEventListener("click", () => {
+  const preferences = document.getElementById("cookieCatPrefs").checked;
+  const thirdparty = document.getElementById("cookieCatThird").checked;
+  const c = writeConsent({ preferences, thirdparty });
+  applyConsent(c);
+  hideBanner();
+  closeCookieModal();
+});
+if (mapConsent) {
+  document.getElementById("mapConsentAccept").addEventListener("click", () => {
+    const existing = readConsent();
+    const c = writeConsent({ preferences: existing ? existing.preferences : true, thirdparty: true });
+    applyConsent(c);
+    hideBanner();
+  });
+}
+
+(function initConsent() {
+  const existing = readConsent();
+  if (existing) {
+    applyConsent(existing);
+  } else {
+    showBanner();
+  }
+})();
