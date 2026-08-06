@@ -69,6 +69,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 </head>
 <body>
 
@@ -287,13 +288,23 @@
         </a>
       </div>
 
-      <div class="map-card reveal">
-        <iframe
-          src="https://www.google.com/maps?q=-23.4016731,-51.9434669&z=14&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Vila Esperança, Maringá, Brazil map">
-        </iframe>
+      <div class="map-card reveal" id="mapCard">
+        <div class="map-card__frame-wrap">
+          <iframe
+            id="mapIframe"
+            data-src="https://www.google.com/maps?q=-23.4016731,-51.9434669&z=14&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Vila Esperança, Maringá, Brazil map">
+          </iframe>
+          <div class="map-card__consent" id="mapConsent">
+            <p data-i18n="cookies.mapConsentText">This map is provided by Google Maps and requires third-party cookies to load.</p>
+            <div class="map-card__consent-actions">
+              <button class="btn btn--primary btn--sm" id="mapConsentAccept" data-i18n="cookies.mapConsentAccept">Load the map</button>
+              <a class="map-card__consent-link" href="https://www.google.com/maps?q=-23.4016731,-51.9434669" target="_blank" rel="noopener" data-i18n="cookies.mapConsentOpen">Open in Google Maps</a>
+            </div>
+          </div>
+        </div>
         <div class="map-card__label">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
           <span data-i18n="contact.location">Vila Esperança, Maringá — Brazil</span>
@@ -310,21 +321,86 @@
   <footer class="footer">
     <div class="footer__inner">
       <span>© <span id="year"></span> Inconnu boy sensei</span>
-
+      <button class="footer__link" id="footerCookieLink" data-i18n="cookies.manage">Cookie settings</button>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ============ COOKIE CONSENT BANNER ============ -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
+    <div class="cookie-banner__inner">
+      <div class="cookie-banner__text">
+        <p class="cookie-banner__title" data-i18n="cookies.title">We value your privacy</p>
+        <p class="cookie-banner__desc" data-i18n="cookies.desc">
+          This site uses essential cookies to remember your preferences (theme, language) and third-party cookies (Google Maps, Google Translate) to power some embedded features. You choose what to allow.
+        </p>
+      </div>
+      <div class="cookie-banner__actions">
+        <button class="btn btn--ghost btn--sm" id="cookieCustomize" data-i18n="cookies.customize">Customize</button>
+        <button class="btn btn--ghost btn--sm" id="cookieReject" data-i18n="cookies.reject">Reject non-essential</button>
+        <button class="btn btn--primary btn--sm" id="cookieAcceptAll" data-i18n="cookies.acceptAll">Accept all</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Google Translate — traduit le site entier dans toutes les langues supportées par Google -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        { pageLanguage: "en", autoDisplay: false },
-        "google_translate_element"
-      );
-    }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <!-- ============ COOKIE PREFERENCES MODAL ============ -->
+  <div class="cookie-modal" id="cookieModal" hidden>
+    <div class="cookie-modal__backdrop" id="cookieModalBackdrop"></div>
+    <div class="cookie-modal__panel" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle">
+      <button class="cookie-modal__close" id="cookieModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+
+      <p class="eyebrow" data-i18n="cookies.eyebrow">Privacy</p>
+      <h2 id="cookieModalTitle" class="cookie-modal__title" data-i18n="cookies.modalTitle">Cookie preferences</h2>
+      <p class="cookie-modal__intro" data-i18n="cookies.modalIntro">
+        Choose which cookies this site is allowed to use. Necessary cookies are always active because the site can't function properly without them.
+      </p>
+
+      <div class="cookie-category">
+        <div class="cookie-category__head">
+          <span class="cookie-category__title" data-i18n="cookies.catNecessaryTitle">Necessary</span>
+          <span class="cookie-toggle cookie-toggle--locked">
+            <input type="checkbox" checked disabled id="cookieCatNecessary" />
+            <span class="cookie-toggle__slider"></span>
+          </span>
+        </div>
+        <p class="cookie-category__desc" data-i18n="cookies.catNecessaryDesc">Required for core functionality: theme, language, and remembering your cookie choice. Cannot be disabled.</p>
+      </div>
+
+      <div class="cookie-category">
+        <div class="cookie-category__head">
+          <span class="cookie-category__title" data-i18n="cookies.catPrefTitle">Preferences</span>
+          <label class="cookie-toggle">
+            <input type="checkbox" id="cookieCatPrefs" checked />
+            <span class="cookie-toggle__slider"></span>
+          </label>
+        </div>
+        <p class="cookie-category__desc" data-i18n="cookies.catPrefDesc">Remembers non-essential display choices to make future visits smoother.</p>
+      </div>
+
+      <div class="cookie-category">
+        <div class="cookie-category__head">
+          <span class="cookie-category__title" data-i18n="cookies.catThirdTitle">Third-party services</span>
+          <label class="cookie-toggle">
+            <input type="checkbox" id="cookieCatThird" checked />
+            <span class="cookie-toggle__slider"></span>
+          </label>
+        </div>
+        <p class="cookie-category__desc" data-i18n="cookies.catThirdDesc">Loads the Google Maps embed and the Google Translate widget. These services may set their own cookies.</p>
+      </div>
+
+      <div class="cookie-modal__actions">
+        <button class="btn btn--ghost" id="cookieModalReject" data-i18n="cookies.reject">Reject non-essential</button>
+        <button class="btn btn--primary" id="cookieModalSave" data-i18n="cookies.save">Save preferences</button>
+      </div>
+
+      <details class="cookie-policy-full">
+        <summary data-i18n="cookies.policyLink">Full cookie policy</summary>
+        <div class="cookie-policy-full__body" id="cookieFullPolicy" data-i18n="cookies.fullPolicy"></div>
+      </details>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
