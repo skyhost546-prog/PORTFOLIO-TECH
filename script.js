@@ -328,7 +328,7 @@ skillsGrid.innerHTML = skills
 /* ---------- TIMELINE ---------- */
 const timelineData = [
   { date: "Since 2024", title: "Open Source Development", text: "Building and maintaining open source tools and libraries, shared publicly on GitHub." },
-  { date: "Since 2024", title: "CEO & Co-Founder — SYRIX VISION COMPANY", text: "Leading a small team shipping independent open source software." },
+  { date: "Since 2026", title: "CEO & Co-Founder — SYRIX VISION COMPANY", text: "Leading a small team shipping independent open source software." },
   { date: "Since 2024", title: "Full Stack Web Development", text: "Designing and building web applications end to end — from API to interface." },
   { date: "Since 2024", title: "Android Development", text: "Building cross-platform mobile apps with Capacitor on top of web technologies." },
 ];
