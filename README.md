@@ -1,7 +1,5 @@
 # Portfolio — Inconnu boy
 
-Site statique pur HTML/CSS/JS (aucun build nécessaire), prêt pour Vercel.
-
 ## Fichiers
 - `index.html` — structure + balises SEO (title, description, Open Graph, Twitter Card, JSON-LD Schema.org)
 - `styles.css` — design (dark/light mode, responsive)
